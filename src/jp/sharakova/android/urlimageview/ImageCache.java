@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -22,29 +21,8 @@ public class ImageCache {
 		return String.valueOf(hash);
 	}
 
-	public static void saveBitmap(File cacheDir, String url, Bitmap bitmap) {
-		cache.put(url, new SoftReference<Bitmap>(bitmap));
-
-		String fileName = getFileName(url);
-		File localFile = new File(cacheDir, fileName);
-
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(localFile);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (OutOfMemoryError e) {
-			e.printStackTrace();
-		} finally {
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException e1) {
-					Log.w("save", "finally");
-				}
-			}
-		}
+	public static void saveBitmap(File cacheDir, String url, Bitmap bitmap) {		
+		cache.put(url, new SoftReference<Bitmap>(bitmap));					
 	}
 
 	public static SoftReference<Bitmap> getImage(File cacheDir, String url) {
